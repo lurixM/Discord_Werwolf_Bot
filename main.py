@@ -112,9 +112,6 @@ async def start(ctx):
                 # Bad style. Also generally dumb
                 moderator = user
 
-    # TODO: Output players playing
-    await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
-
     # Also bad style.
     if moderator:
         await moderator.create_dm()
@@ -122,6 +119,8 @@ async def start(ctx):
         for user_role_pair in user_role_dict:
             message += user_role_pair + ": " + user_role_dict[user_role_pair] + ", \n"
         await moderator.dm_channel.send(message)
+
+    await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
 
 
 @bot.command(name='restart')
