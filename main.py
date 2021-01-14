@@ -33,7 +33,7 @@ roles = {
          }
 
 
-@bot.command(name='start-game')
+@bot.command(name='start')
 @commands.has_role('werwolf.moderator')
 async def start(ctx):
     guild_category = ctx.channel.category
@@ -44,6 +44,7 @@ async def start(ctx):
     # Append to list of running games. Guild Category is the id, voice_channel_users all users that are part of the game
     game_list[guild_category] = Game.Game(guild_category, voice_channel_users)
 
+    # TODO: List that contains correct number of wolfes
     # Lists to iterate over. Since they are going to be modified, they are deepcopied
     roles_to_iterate = copy.copy(roles)
     users_to_iterate = copy.copy(voice_channel_users)
@@ -79,14 +80,14 @@ async def start(ctx):
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
 
 
-@bot.command(name='restart-game')
+@bot.command(name='restart')
 @commands.has_role('werwolf.moderator')
 async def restart(ctx):
     await stop(ctx)
     await start(ctx)
 
 
-@bot.command(name='stop-game')
+@bot.command(name='stop')
 @commands.has_role('werwolf.moderator')
 async def stop(ctx):
     guild_category = ctx.channel.category
