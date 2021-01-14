@@ -53,25 +53,27 @@ async def start(ctx):
 
     # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
     # this to not use dicts, that was á bad idea.
-    additional_wolf_count = (len(users_to_iterate) - 6) % 3
-    for i in range(0, additional_wolf_count):
-        roles_to_iterate['Werwolf'+str(i)] = 'werwolf.werwolf'
+    # additional_wolf_count = (len(users_to_iterate) - 6) % 3
+    # for i in range(0, additional_wolf_count):
+    #     roles_to_iterate['Werwolf'+str(i)] = 'werwolf.werwolf'
 
     # Assign 'Dorfbewohner' to every player in game.
     dorfbewohner_role = discord.utils.get(ctx.guild.roles, name=roles['Dorfbewohner'])
 
-    for user in voice_channel_users:
-        try:
-            await user.add_roles(dorfbewohner_role)
-        except discord.Forbidden:
-            await ctx.send('Insufficient Permission, contact an admin for help')
-            return
-
-    roles_to_iterate.pop('Dorfbewohner')
-
     # Assign every other role
+    print(len(roles_to_iterate))
+    print(len(users_to_iterate))
     if len(roles_to_iterate) < len(users_to_iterate):
         for rand_user in users_to_iterate:
+
+            for user in voice_channel_users:
+                try:
+                    await user.add_roles(dorfbewohner_role)
+                except discord.Forbidden:
+                    await ctx.send('Insufficient Permission, contact an admin for help')
+                    return
+
+            roles_to_iterate.pop('Dorfbewohner')
 
             rand_role = random.choice(roles_to_iterate)
             game_role_abc = discord.utils.get(ctx.guild.roles, name=roles[rand_role])
