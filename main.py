@@ -63,7 +63,7 @@ async def start(ctx):
     # Assign every other role
     print(len(roles_to_iterate))
     print(len(users_to_iterate))
-    if len(roles_to_iterate) < len(users_to_iterate):
+    if len(roles_to_iterate) <= len(users_to_iterate):
         for rand_user in users_to_iterate:
 
             for user in voice_channel_users:
