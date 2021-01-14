@@ -49,6 +49,8 @@ async def start(ctx):
     roles_to_iterate = copy.copy(roles)
     users_to_iterate = copy.copy(voice_channel_users)
 
+    user_role_dict = {}
+
     # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
     # this to not use dicts, that was á bad idea.
     additional_wolf_count = (len(users_to_iterate) - 6) % 3
@@ -77,11 +79,14 @@ async def start(ctx):
             # TODO: Check if role is already added or exists
             rand_user_roles = rand_user.roles
             rand_user_roles_name = []
+
+            # List of all roles a use has
             for role in rand_user_roles:
                 rand_user_roles_name.append(role.name)
 
             if not ('werwolf.moderator' in rand_user_roles_name):
                 rand_user.add_roles(game_role_abc)
+                user_role_dict[user.name] = rand_role.name
                 users_to_iterate.pop(rand_role)
 
     else:
@@ -100,7 +105,9 @@ async def start(ctx):
 
     # TODO: Output players playing
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
-    # await moderator.dm_channel.send()
+
+    for user_role_pair in user_role_dict:
+        await moderator.dm_channel.send()
 
 
 @bot.command(name='restart')
