@@ -22,15 +22,15 @@ intents.members = True
 bot = commands.Bot(command_prefix='-wer ', intents=intents)
 
 game_list = {}
-roles = {
-        'Dorfbewohner': 'werwolf.dorfbewohner',
-        'Hexe': 'werwolf.hexe',
-        'Jaeger': 'werwolf.jaeger',
-        'Amor': 'werwolf.amor',
-        'Seherin': 'werwolf.seherin',
-        'Nutte': 'werwolf.nutte',
-        'Werwolf': 'werwolf.werwolf'
-         }
+roles = [
+        'werwolf.dorfbewohner',
+        'werwolf.hexe',
+        'werwolf.jaeger',
+        'werwolf.werwolf'
+         ]
+#        'werwolf.amor',
+#        'werwolf.seherin',
+#        'werwolf.nutte',
 
 
 @bot.command(name='start')
@@ -51,6 +51,7 @@ async def start(ctx):
 
     user_role_dict = {}
 
+    # TODO: Check formula
     # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
     # this to not use dicts, that was á bad idea.
     # additional_wolf_count = (len(users_to_iterate) - 6) % 3
@@ -58,25 +59,22 @@ async def start(ctx):
     #     roles_to_iterate['Werwolf'+str(i)] = 'werwolf.werwolf'
 
     # Assign 'Dorfbewohner' to every player in game.
-    dorfbewohner_role = discord.utils.get(ctx.guild.roles, name=roles['Dorfbewohner'])
+    dorfbewohner_role = discord.utils.get(ctx.guild.roles, name="werwolf.dorfbewohner")
 
     # Assign every other role
-    print(len(roles_to_iterate))
-    print(len(users_to_iterate))
     if len(roles_to_iterate) <= len(users_to_iterate):
+        for user in voice_channel_users:
+            try:
+                await user.add_roles(dorfbewohner_role)
+            except discord.Forbidden:
+                await ctx.send('Insufficient Permission, contact an admin for help')
+                return
+
+        roles_to_iterate.remove("werwolf.dorfbewohner")
+
         for rand_user in users_to_iterate:
-
-            for user in voice_channel_users:
-                try:
-                    await user.add_roles(dorfbewohner_role)
-                except discord.Forbidden:
-                    await ctx.send('Insufficient Permission, contact an admin for help')
-                    return
-
-            roles_to_iterate.pop('Dorfbewohner')
-
             rand_role = random.choice(roles_to_iterate)
-            game_role_abc = discord.utils.get(ctx.guild.roles, name=roles[rand_role])
+            game_role_abc = discord.utils.get(ctx.guild.roles, name=rand_role)
 
             # TODO: Check if role is already added or exists
             rand_user_roles = rand_user.roles
@@ -87,9 +85,9 @@ async def start(ctx):
                 rand_user_roles_name.append(role.name)
 
             if not ('werwolf.moderator' in rand_user_roles_name):
-                rand_user.add_roles(game_role_abc)
+                await rand_user.add_roles(game_role_abc)
                 user_role_dict[rand_user.name] = rand_role
-                users_to_iterate.pop(rand_role)
+                users_to_iterate.remove(rand_user)
 
     else:
         await ctx.send('Nicht genug Spieler, um zu starten')
@@ -103,8 +101,9 @@ async def start(ctx):
         user_roles = user.roles
         for role in user_roles:
             if role.name == "werwolf.moderator":
-                # Bad style.
+                # Bad style. Also generally dumb
                 moderator = user
+                print(moderator)
 
     # TODO: Output players playing
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
@@ -135,6 +134,7 @@ async def stop(ctx):
         for user in user_list:
             user_roles = user.roles
             for role in user_roles:
+                # TODO: moderator gets removed
                 if ('werwolf.' in role.name) and (role.name != 'werewolf.moderator'):
                     await user.remove_roles(role)
     else:
