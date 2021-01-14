@@ -55,7 +55,6 @@ async def start(ctx):
     # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
     # this to not use dicts, that was a bad idea.
     additional_wolf_count = int((len(users_to_iterate) - 7) / 3)
-    print(additional_wolf_count)
     for i in range(0, additional_wolf_count):
         roles_to_iterate.append('werwolf.werwolf')
 
@@ -112,7 +111,6 @@ async def start(ctx):
             if role.name == "werwolf.moderator":
                 # Bad style. Also generally dumb
                 moderator = user
-                print(moderator)
 
     # TODO: Output players playing
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
