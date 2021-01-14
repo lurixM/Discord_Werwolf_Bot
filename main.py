@@ -95,7 +95,7 @@ async def start(ctx):
             if not ('werwolf.moderator' in rand_user_roles_name):
                 await rand_user.add_roles(game_role_abc)
                 user_role_dict[rand_user.name] = rand_role
-                users_to_iterate.remove(rand_user)
+                roles_to_iterate.remove(rand_role)
 
     else:
         await ctx.send('Nicht genug Spieler, um zu starten')
