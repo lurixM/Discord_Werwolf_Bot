@@ -86,7 +86,7 @@ async def start(ctx):
 
             if not ('werwolf.moderator' in rand_user_roles_name):
                 rand_user.add_roles(game_role_abc)
-                user_role_dict[user.name] = rand_role.name
+                user_role_dict[rand_user.name] = rand_role
                 users_to_iterate.pop(rand_role)
 
     else:
@@ -101,13 +101,16 @@ async def start(ctx):
         user_roles = user.roles
         for role in user_roles:
             if role.name == "werwolf.moderator":
+                # Bad style.
                 moderator = user
 
     # TODO: Output players playing
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
 
-    for user_role_pair in user_role_dict:
-        await moderator.dm_channel.send()
+    # Also bad style.
+    if moderator:
+        for user_role_pair in user_role_dict:
+            await moderator.dm_channel.send(user_role_pair)
 
 
 @bot.command(name='restart')
@@ -160,4 +163,4 @@ async def on_command_error(ctx, error):
 
 bot.run(TOKEN)
 
-#TODO: Whispering by chance? To emulate missing real life element.
+# TODO: Whispering by chance? To emulate missing real life element.
