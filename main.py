@@ -68,15 +68,22 @@ async def start(ctx):
     roles_to_iterate.pop('Dorfbewohner')
 
     # Assign every other role
-    if len(roles_to_iterate) <= len(users_to_iterate):
-        for game_role in roles_to_iterate:
-            game_role_abc = discord.utils.get(ctx.guild.roles, name=roles[game_role])
+    if len(roles_to_iterate) < len(users_to_iterate):
+        for rand_user in users_to_iterate:
+
+            rand_role = random.choice(roles_to_iterate)
+            game_role_abc = discord.utils.get(ctx.guild.roles, name=roles[rand_role])
 
             # TODO: Check if role is already added or exists
-            rand_user = random.choice(users_to_iterate)
-            rand_user.add_roles(game_role_abc)
+            rand_user_roles = rand_user.roles
+            rand_user_roles_name = []
+            for role in rand_user_roles:
+                rand_user_roles_name.append(role.name)
 
-            users_to_iterate.pop(rand_user)
+            if not ('werwolf.moderator' in rand_user_roles_name):
+                rand_user.add_roles(game_role_abc)
+                users_to_iterate.pop(rand_role)
+
     else:
         await ctx.send('Nicht genug Spieler, um zu starten')
         game_list.pop(guild_category)
