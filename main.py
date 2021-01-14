@@ -62,7 +62,7 @@ async def start(ctx):
     dorfbewohner_role = discord.utils.get(ctx.guild.roles, name="werwolf.dorfbewohner")
 
     # Assign every other role
-    if len(roles_to_iterate) <= len(users_to_iterate) - 1:
+    if len(roles_to_iterate) - 1 <= len(users_to_iterate) - 1:
         for user in voice_channel_users:
             user_roles = user.roles
             user_roles_name = []
