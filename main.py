@@ -49,6 +49,12 @@ async def start(ctx):
     roles_to_iterate = copy.copy(roles)
     users_to_iterate = copy.copy(voice_channel_users)
 
+    # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
+    # this to not use dicts, that was á bad idea.
+    additional_wolf_count = (len(users_to_iterate) - 6) % 3
+    for i in range(0, additional_wolf_count):
+        roles_to_iterate['Werwolf'+str(i)] = 'werwolf.werwolf'
+
     # Assign 'Dorfbewohner' to every player in game.
     dorfbewohner_role = discord.utils.get(ctx.guild.roles, name=roles['Dorfbewohner'])
 
