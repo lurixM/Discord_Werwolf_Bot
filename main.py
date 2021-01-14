@@ -89,8 +89,18 @@ async def start(ctx):
         game_list.pop(guild_category)
         return
 
+    # Implies that a mod is in channel. Also Moderator is declared the last person found. For controllability
+    # only one mod can be in a channel for now
+    # TODO: Implement game config.
+    for user in voice_channel_users:
+        user_roles = user.roles
+        for role in user_roles:
+            if role.name == "werwolf.moderator":
+                moderator = user
+
     # TODO: Output players playing
     await ctx.send(f'Spiel gestartet!')  # \n ' 'Es spielen: \n' ', '.join(game_list[guild_category].get_user_list()))
+    # await moderator.dm_channel.send()
 
 
 @bot.command(name='restart')
