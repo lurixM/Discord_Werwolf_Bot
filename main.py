@@ -104,11 +104,12 @@ async def restart(ctx):
 @commands.has_role('werwolf.moderator')
 async def stop(ctx):
     guild_category = ctx.channel.category
-    game = game_list[guild_category]
-    user_list = game.get_user_list()
 
     # TODO: bad style
-    if game:
+    if guild_category in game_list:
+        game = game_list[guild_category]
+        user_list = game.get_user_list()
+
         for user in user_list:
             user_roles = user.roles
             for role in user_roles:
@@ -141,3 +142,5 @@ async def on_command_error(ctx, error):
         await ctx.send('Insufficient Permission: Only werwolf.moderator can use this command.')
 
 bot.run(TOKEN)
+
+#TODO: Whispering by chance? To emulate missing real life element.
