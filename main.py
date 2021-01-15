@@ -28,8 +28,8 @@ roles = [
         'werwolf.amor',
         'werwolf.seherin',
         'werwolf.nutte',
-        'werwolf.werwolf'
-        'werwolf.dorfdepp'
+        'werwolf.werwolf',
+        'werwolf.dorfdepp',
         'werwolf.psychowolf'
          ]
 
@@ -67,6 +67,7 @@ async def start(ctx):
 
     # Assign every other role
     if len(roles_to_iterate) - 1 <= len(users_to_iterate) - 1:
+        print(roles_to_iterate)
         for user in voice_channel_users:
             user_roles = user.roles
             user_roles_name = []
@@ -85,6 +86,7 @@ async def start(ctx):
         # roles_to_iterate.remove("werwolf.dorfbewohner")
 
         for rand_user in users_to_iterate:
+            print(rand_user)
             rand_role = random.choice(roles_to_iterate)
             game_role_abc = discord.utils.get(ctx.guild.roles, name=rand_role)
 
@@ -96,6 +98,7 @@ async def start(ctx):
             for role in rand_user_roles:
                 rand_user_roles_name.append(role.name)
 
+            print(game_role_abc)
             if not ('werwolf.moderator' in rand_user_roles_name):
                 await rand_user.add_roles(game_role_abc)
                 user_role_dict[rand_user.name] = rand_role
