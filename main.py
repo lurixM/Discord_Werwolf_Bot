@@ -29,6 +29,8 @@ roles = [
         'werwolf.seherin',
         'werwolf.nutte',
         'werwolf.werwolf'
+        'werwolf.dorfdepp'
+        'werwolf.psychowolf'
          ]
 
 
@@ -53,7 +55,7 @@ async def start(ctx):
     # TODO: Check formula
     # It's ugly! But time pressure and stuff. Didn't think about to implement this last night. I'll eventually rewrite
     # this to not use dicts, that was a bad idea.
-    additional_wolf_count = int((len(users_to_iterate) - 7) / 3)
+    additional_wolf_count = int((len(users_to_iterate) - 7) / 4)
     for i in range(0, additional_wolf_count):
         roles_to_iterate.append('werwolf.werwolf')
 
