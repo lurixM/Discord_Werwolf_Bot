@@ -58,8 +58,11 @@ async def start(ctx):
     for i in range(0, additional_wolf_count):
         roles_to_iterate.append('werwolf.werwolf')
 
+    while len(roles_to_iterate) < len(users_to_iterate):
+        roles_to_iterate.append('werwolf.dorfbewohner')
+
     # Assign 'Dorfbewohner' to every player in game.
-    dorfbewohner_role = discord.utils.get(ctx.guild.roles, name="werwolf.dorfbewohner")
+    # dorfbewohner_role = discord.utils.get(ctx.guild.roles, name="werwolf.dorfbewohner")
 
     # Assign every other role
     if len(roles_to_iterate) - 1 <= len(users_to_iterate) - 1:
@@ -71,14 +74,14 @@ async def start(ctx):
             for role in user_roles:
                 user_roles_name.append(role.name)
 
-            if not ('werwolf.moderator' in user_roles_name):
-                try:
-                    await user.add_roles(dorfbewohner_role)
+            '''if not ('werwolf.moderator' in user_roles_name):
+                #try:
+                 #   await user.add_roles(dorfbewohner_role)
                 except discord.Forbidden:
                     await ctx.send('Insufficient Permission, contact an admin for help')
-                    return
+                    return '''
 
-        roles_to_iterate.remove("werwolf.dorfbewohner")
+        # roles_to_iterate.remove("werwolf.dorfbewohner")
 
         for rand_user in users_to_iterate:
             rand_role = random.choice(roles_to_iterate)
@@ -111,6 +114,7 @@ async def start(ctx):
             if role.name == "werwolf.moderator":
                 # Bad style. Also generally dumb
                 moderator = user
+                print(moderator)
 
     # Also bad style.
     if moderator:
@@ -175,3 +179,4 @@ async def on_command_error(ctx, error):
 bot.run(TOKEN)
 
 # TODO: Whispering by chance? To emulate missing real life element.
+# TODO:
