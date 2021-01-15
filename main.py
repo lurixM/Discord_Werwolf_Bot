@@ -23,7 +23,6 @@ bot = commands.Bot(command_prefix='-wer ', intents=intents)
 
 game_list = {}
 roles = [
-        'werwolf.dorfbewohner',
         'werwolf.hexe',
         'werwolf.jaeger',
         'werwolf.amor',
@@ -73,7 +72,7 @@ async def start(ctx):
             # List of all roles a use has
             for role in user_roles:
                 user_roles_name.append(role.name)
-
+            # TODO: cleanup
             '''if not ('werwolf.moderator' in user_roles_name):
                 #try:
                  #   await user.add_roles(dorfbewohner_role)
